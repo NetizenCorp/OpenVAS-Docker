@@ -13,5 +13,4 @@ This image is designed for use with our GVM image located here: [GVM-Docker](htt
 | Tag       | Description              |
 | --------- | ------------------------ |
 | latest    | Latest stable version    |
-| {version} | Specific stable version  |
 | dev       | Latest development build |
