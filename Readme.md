@@ -2,7 +2,7 @@
 
 Visit out Website: https://www.netizen.net
 
-# OpenVAS with OSPd Docker Image
+# Remote OpenVAS Docker Image
 ### Latest Version: 21.4.4
 
 This image is designed for use with our GVM image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). This image is backwards compatiable with 21.4.0-3. Information on setting up can be retrieved by emailing info@netizen.net.
