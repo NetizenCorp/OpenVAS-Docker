@@ -10,8 +10,8 @@ RUN bash /install-pkgs.sh
 ENV GVM_LIBS_VERSION="21.4.4" \
     OPENVAS_SCANNER_VERSION="v21.4.4" \
     OPENVAS_SMB_VERSION="21.4.0" \
-    OSPD_OPENVAS_VERSION="21.4.4"
-	INSTALL_PREFIX="/usr/local" \
+    OSPD_OPENVAS_VERSION="21.4.4" \
+    INSTALL_PREFIX="/usr/local" \
     SOURCE_DIR="/source" \
     BUILD_DIR="/build" \
     INSTALL_DIR="/install"
