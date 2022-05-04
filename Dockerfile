@@ -84,4 +84,6 @@ RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/openvas.conf && ldconfig && cd / &
 
 COPY scripts/* /
 
+RUN chmod +x /*.sh
+
 ENTRYPOINT ["/start.sh"]
