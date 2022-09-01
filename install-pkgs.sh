@@ -37,6 +37,7 @@ libssh-gcrypt-dev
 libbsd-dev
 libunistring-dev
 libxml2-dev
+libpaho-mqtt-dev
 nano
 net-tools
 nmap
