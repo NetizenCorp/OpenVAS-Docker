@@ -18,6 +18,7 @@ heimdal-dev
 ike-scan
 python3-impacket
 libgcrypt20-dev
+libjson-glib-dev
 libglib2.0-dev
 libgnutls28-dev
 libgpgme11-dev
@@ -33,6 +34,7 @@ libpcap-dev
 libpopt-dev
 libsnmp-dev
 libssh-gcrypt-dev
+libbsd-dev
 libunistring-dev
 libxml2-dev
 nano
