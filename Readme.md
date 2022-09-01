@@ -3,7 +3,7 @@
 Visit out Website: https://www.netizen.net
 
 # Remote OpenVAS Docker Image
-### Latest Version: 21.4.4-v1
+### Latest Version: 22.4.0
 
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. This container supports AMD 64-bit and ARM 64-bit Linux based operating systems.
 
@@ -19,7 +19,6 @@ First, install required packages, docker, and docker-compose on your linux syste
 ```bash
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose
-sudo usermod -aG docker ${USER}
 ```
 Next, create a directory and download the docker-compose.yml file from github
 ```bash
@@ -48,13 +47,13 @@ volumes:
 ```
 Next, its time to stand up the docker using docker-compose.
 ```bash
-docker-compose up -d # The -d option is for a detached docker image
+sudo docker-compose up -d # The -d option is for a detached docker image
 ```
 Watch the scanner logs for the \"Scanner id\" and Public key
 Note: this assumes you\'ve named your container \"scanner\"
 ```bash
-docker container ls # Lists the current containers running on the system. Look under the Names column for the container name. Ex: gvm-docker_gvm_1
-docker logs -f [generated scanner name]
+sudo docker container ls # Lists the current containers running on the system. Look under the Names column for the container name. Ex: gvm-docker_gvm_1
+sudo docker logs -f [generated scanner name]
 ```
 Example output:
 ```bash
@@ -80,7 +79,7 @@ You will receive a confirmation that the scanner has been added
 Login to the GVM server web interface and navtigate to *Configuration -> Scanners* to see the scanner you just added.
 You can click the sheild icon next to the scanner to verify the scanner connectivity. If it says Scanner Unavailable, restart the OpenVAS remote docker container with the following command:
 ```bash
-docker container restart [generated container name]
+sudo docker container restart [generated container name]
 ```
 
 ## Installation for ARM 64-Bit Based Operating Systems
@@ -88,7 +87,6 @@ First, install docker and docker-compose on your linux system. After installatio
 ```bash
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose
-sudo usermod -aG docker ${USER}
 ```
 Next, create a directory, clone the GitHub Repository, and Build the Docker Image. Note: The building process will take time to complete.
 ```bash
@@ -96,7 +94,7 @@ mkdir -p /home/$USER/docker/
 cd /home/$USER/docker/
 git clone https://github.com/NetizenCorp/OpenVAS-Docker.git
 cd OpenVAS-Docker/
-docker build . -t openvas
+sudo docker build . -t openvas
 ```
 Next, you will modify the docker-compose.yml file using your preferred editor (nano or vim)
 ```bash
@@ -119,13 +117,13 @@ volumes:
 ```
 Next, its time to stand up the docker using docker-compose.
 ```bash
-docker-compose up -d # The -d option is for a detached docker image
+sudo docker-compose up -d # The -d option is for a detached docker image
 ```
 Watch the scanner logs for the \"Scanner id\" and Public key
 Note: this assumes you\'ve named your container \"scanner\"
 ```bash
-docker container ls # Lists the current containers running on the system. Look under the Names column for the container name. Ex: gvm-docker_gvm_1
-docker logs -f [generated scanner name]
+sudo docker container ls # Lists the current containers running on the system. Look under the Names column for the container name. Ex: gvm-docker_gvm_1
+sudo docker logs -f [generated scanner name]
 ```
 Example output:
 ```bash
@@ -137,7 +135,7 @@ Master host key (Check that it matches the public key from the master): [192.168
 ```
 On the host with the GVM server container, run the following command:
 ```bash
-docker exec -it gvm /add-scanner.sh
+sudo docker exec -it gvm /add-scanner.sh
 ```
 This will prompt you for your scanner name, \"Scanner id\", and Public Key
 
@@ -151,7 +149,7 @@ You will receive a confirmation that the scanner has been added
 Login to the GVM server web interface and navtigate to *Configuration -> Scanners* to see the scanner you just added.
 You can click the sheild icon next to the scanner to verify the scanner connectivity. If it says Scanner Unavailable, restart the OpenVAS remote docker container with the following command:
 ```bash
-docker container restart [generated container name]
+sudo docker container restart [generated container name]
 ```
 
 ## Docker Tags
