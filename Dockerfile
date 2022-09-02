@@ -10,7 +10,8 @@ RUN bash /install-pkgs.sh
 ENV GVM_LIBS_VERSION="22.4.0" \
     OPENVAS_SCANNER_VERSION="22.4.0" \
     OPENVAS_SMB_VERSION="22.4.0" \
-    OSPD_OPENVAS_VERSION="22.4.0" \
+    OSPD_OPENVAS_VERSION="22.4.2" \
+    NOTUS_VERSION="22.4.1" \
     INSTALL_PREFIX="/usr/local" \
     SOURCE_DIR="/source" \
     BUILD_DIR="/build" \
@@ -79,6 +80,16 @@ RUN curl -f -L https://github.com/greenbone/ospd-openvas/archive/refs/tags/v$OSP
     tar -C $SOURCE_DIR -xvzf $SOURCE_DIR/ospd-openvas-$OSPD_OPENVAS_VERSION.tar.gz && \
     cd $SOURCE_DIR/ospd-openvas-$OSPD_OPENVAS_VERSION && \
     python3 -m pip install . --no-warn-script-location
+    
+    #
+    # Install Notus Scanner
+    #
+    
+RUN curl -f -L https://github.com/greenbone/notus-scanner/archive/refs/tags/v$NOTUS_VERSION.tar.gz -o $SOURCE_DIR/notus-scanner-$NOTUS_VERSION.tar.gz && \
+    curl -f -L https://github.com/greenbone/notus-scanner/releases/download/v$NOTUS_VERSION/notus-scanner-$NOTUS_VERSION.tar.gz.asc -o $SOURCE_DIR/notus-scanner-$NOTUS_VERSION.tar.gz.asc && \
+    tar -C $SOURCE_DIR -xvzf $SOURCE_DIR/notus-scanner-$NOTUS_VERSION.tar.gz && \
+    cd $SOURCE_DIR/notus-scanner-$NOTUS_VERSION && \
+    python3 -m pip install . --prefix=$INSTALL_PREFIX --no-warn-script-location 
     
 RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/openvas.conf && ldconfig && cd / && rm -rf /build
 
