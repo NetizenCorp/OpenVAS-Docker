@@ -55,10 +55,17 @@ if [ ! -f "/firstrun" ]; then
 	echo "Creating Openvas NVT sync user..."
 	useradd --home-dir /var/lib/openvas openvas-sync
 	chown openvas-sync:openvas-sync -R /var/lib/openvas
+	mkdir -p /var/lib/notus
+	chown -R openvas-sync:openvas-sync /var/lib/notus
 	
 	echo "Creating NVT folder..."
 	mkdir -p /var/lib/openvas/plugins/
 	chown openvas-sync:openvas-sync -R /var/lib/openvas/plugins
+	
+	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-nvt-sync
+	chmod 740 /usr/local/sbin/greenbone-feed-sync
+	chown openvas-sync:openvas-sync /usr/local/sbin/greenbone-*-sync
+	chmod 740 /usr/local/sbin/greenbone-*-sync
 	
 	touch /firstrun
 fi
