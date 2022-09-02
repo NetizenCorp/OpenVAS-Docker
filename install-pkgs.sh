@@ -57,6 +57,7 @@ python3-pyparsing
 python3-redis
 python3-setuptools
 python3-six
+python3-paho-mqtt
 redis-server
 redis-tools
 rsync
