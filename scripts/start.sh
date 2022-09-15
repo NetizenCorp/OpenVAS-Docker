@@ -53,7 +53,7 @@ if [ ! -f "/firstrun" ]; then
 	echo "Running first start configuration..."
 
 	echo "Creating Openvas NVT sync user..."
-	useradd --home-dir /var/lib/openvas openvas-sync
+	useradd --home-dir /var/lib/openvas openvas-sync || echo "User already exists"
 	chown openvas-sync:openvas-sync -R /var/lib/openvas
 	mkdir -p /var/lib/notus
 	mkdir -p /var/lib/notus/products/
@@ -68,7 +68,6 @@ if [ ! -f "/firstrun" ]; then
 	chown openvas-sync:openvas-sync -R /var/lib/openvas/plugins
 	
 	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-nvt-sync
-	chmod 740 /usr/local/sbin/greenbone-feed-sync
 	chown openvas-sync:openvas-sync /usr/local/sbin/greenbone-*-sync
 	chmod 740 /usr/local/sbin/greenbone-*-sync
 	
@@ -96,6 +95,10 @@ while  [ "${X}" != "PONG" ]; do
         X="$(redis-cli -s /run/redis/redis.sock ping)"
 done
 echo "Redis ready."
+
+echo "Starting Mosquitto..."
+/usr/sbin/mosquitto &
+echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
 
 echo "Updating NVTs..."
 su -c "rsync --compress-level=9 --links --times --omit-dir-times --recursive --partial --quiet rsync://feed.community.greenbone.net:/nvt-feed /var/lib/openvas/plugins" openvas-sync
