@@ -40,6 +40,7 @@ libbsd-dev
 libunistring-dev
 libxml2-dev
 libpaho-mqtt-dev
+mosquitto 
 nano
 net-tools
 nmap
