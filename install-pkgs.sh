@@ -12,6 +12,7 @@ curl
 cron
 gcc
 gcc-mingw-w64
+git
 geoip-database
 gnutls-bin
 heimdal-dev
@@ -27,6 +28,7 @@ libhiredis-dev
 libical-dev
 libksba-dev
 libldap2-dev
+libcap2-bin
 libmicrohttpd-dev
 libnet1-dev
 libnet-snmp-perl
@@ -61,8 +63,10 @@ python3-paho-mqtt
 redis-server
 redis-tools
 rsync
+sudo
 smbclient
 uuid-dev
+vim
 wapiti
 wget
 EOF
