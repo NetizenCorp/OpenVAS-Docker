@@ -56,7 +56,12 @@ if [ ! -f "/firstrun" ]; then
 	useradd --home-dir /var/lib/openvas openvas-sync
 	chown openvas-sync:openvas-sync -R /var/lib/openvas
 	mkdir -p /var/lib/notus
+	mkdir -p /var/lib/notus/products/
+	mkdir -p /run/notus-scanner/
 	chown -R openvas-sync:openvas-sync /var/lib/notus
+	chown -R openvas-sync:openvas-sync /usr/bin/nmap
+	chown -R openvas-sync:openvas-sync /var/lib/notus/products
+	chown -R openvas-sync:openvas-sync /run/notus-scanner
 	
 	echo "Creating NVT folder..."
 	mkdir -p /var/lib/openvas/plugins/
@@ -126,6 +131,9 @@ fi
 
 echo "Starting Open Scanner Protocol daemon for OpenVAS..."
 ospd-openvas --log-file /var/log/gvm/ospd-openvas.log --unix-socket /run/ospd/ospd-openvas.sock --socket-mode 0o666 --log-level INFO
+
+echo "Starting Notus Scanner..."
+/usr/local/bin/notus-scanner --products-directory /var/lib/notus/products --log-file /var/log/gvm/notus-scanner.log
 
 while  [ ! -S /run/ospd/ospd-openvas.sock ]; do
 	sleep 1
