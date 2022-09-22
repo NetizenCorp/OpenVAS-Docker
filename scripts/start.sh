@@ -68,7 +68,7 @@ if [ ! -f "/firstrun" ]; then
 	chown openvas-sync:openvas-sync -R /var/lib/openvas/plugins
 	
 	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-nvt-sync
-	chown openvas-sync:openvas-sync /usr/local/sbin/greenbone-*-sync
+	# chown openvas-sync:openvas-sync /usr/local/sbin/greenbone-*-sync
 	chmod 740 /usr/local/sbin/greenbone-*-sync
 	
 	touch /firstrun
