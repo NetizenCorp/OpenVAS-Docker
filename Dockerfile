@@ -10,7 +10,7 @@ RUN bash /install-pkgs.sh
 ENV GVM_LIBS_VERSION="main" \
     OPENVAS_SCANNER_VERSION="main" \
     OPENVAS_SMB_VERSION="main" \
-    OSPD_OPENVAS_VERSION="v22.4.1" \
+    OSPD_OPENVAS_VERSION="main" \
     NOTUS_VERSION="main" \
     INSTALL_PREFIX="/usr/local" \
     SOURCE_DIR="/source" \
