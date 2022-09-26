@@ -53,12 +53,21 @@ if [ ! -f "/firstrun" ]; then
 	echo "Running first start configuration..."
 
 	echo "Creating Openvas NVT sync user..."
-	useradd --home-dir /var/lib/openvas openvas-sync
+	useradd --home-dir /var/lib/openvas openvas-sync || echo "User already exists"
 	chown openvas-sync:openvas-sync -R /var/lib/openvas
+	mkdir -p /var/lib/notus
+	mkdir -p /var/lib/notus/products/
+	mkdir -p /run/notus-scanner/
+	chown -R openvas-sync:openvas-sync /var/lib/notus
+	chown -R openvas-sync:openvas-sync /usr/bin/nmap
+	chown -R openvas-sync:openvas-sync /var/lib/notus/products
+	chown -R openvas-sync:openvas-sync /run/notus-scanner
 	
 	echo "Creating NVT folder..."
 	mkdir -p /var/lib/openvas/plugins/
 	chown openvas-sync:openvas-sync -R /var/lib/openvas/plugins
+	
+	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-nvt-sync
 	
 	touch /firstrun
 fi
@@ -84,6 +93,10 @@ while  [ "${X}" != "PONG" ]; do
         X="$(redis-cli -s /run/redis/redis.sock ping)"
 done
 echo "Redis ready."
+
+echo "Starting Mosquitto..."
+/usr/sbin/mosquitto &
+echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
 
 echo "Updating NVTs..."
 su -c "rsync --compress-level=9 --links --times --omit-dir-times --recursive --partial --quiet rsync://feed.community.greenbone.net:/nvt-feed /var/lib/openvas/plugins" openvas-sync
@@ -119,6 +132,9 @@ fi
 
 echo "Starting Open Scanner Protocol daemon for OpenVAS..."
 ospd-openvas --log-file /var/log/gvm/ospd-openvas.log --unix-socket /run/ospd/ospd-openvas.sock --socket-mode 0o666 --log-level INFO
+
+echo "Starting Notus Scanner..."
+/usr/local/bin/notus-scanner --products-directory /var/lib/notus/products --log-file /var/log/gvm/notus-scanner.log
 
 while  [ ! -S /run/ospd/ospd-openvas.sock ]; do
 	sleep 1
