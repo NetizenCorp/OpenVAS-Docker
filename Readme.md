@@ -35,7 +35,7 @@ Edit the yml file with your preferences.
 version: "3.1"
 services:
     gvm:
-        image: netizensoc/openvas-scanner:[latest|dev] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
+        image: netizensoc/openvas-scanner:[latest|dev|stable] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
         volumes:
           - scanner:/data               # DO NOT MODIFY
         environment:
@@ -92,7 +92,7 @@ Next, create a directory, clone the GitHub Repository, and Build the Docker Imag
 ```bash
 mkdir -p /home/$USER/docker/
 cd /home/$USER/docker/
-git clone https://github.com/NetizenCorp/OpenVAS-Docker.git
+git clone --branch main https://github.com/NetizenCorp/OpenVAS-Docker.git
 cd OpenVAS-Docker/
 sudo docker build . -t openvas
 ```
@@ -158,6 +158,7 @@ sudo docker container restart [generated container name]
 | --------- | ------------------------ |
 | latest    | Latest stable version    |
 | dev       | Latest development build |
+| stable    | Old Stable Version       |
 
 ## Estimated Hardware Requirements
 
