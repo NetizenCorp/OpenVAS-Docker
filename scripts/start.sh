@@ -51,9 +51,33 @@ fi
 
 if [ ! -f "/firstrun" ]; then
 	echo "Running first start configuration..."
-
+	
 	echo "Creating Openvas NVT sync user..."
-	useradd --home-dir /var/lib/openvas openvas-sync || echo "User already exists"
+	useradd -r -M -U -G sudo -s /bin/bash openvas-sync || echo "User already exists"
+	usermod -aG tty openvas-sync
+	usermod -aG sudo openvas-sync
+	usermod -aG redis openvas-sync
+	
+	echo "Importing Greenbone Signing Keys..."
+	curl -f -L https://www.greenbone.net/GBCommunitySigningKey.asc -o /tmp/GBCommunitySigningKey.asc
+	gpg --import /tmp/GBCommunitySigningKey.asc
+
+	echo "8AE4BE429B60A59B311C2E739823FAA60ED1E580:6:" > /tmp/ownertrust.txt
+	gpg --import-ownertrust < /tmp/ownertrust.txt
+
+	echo "Verifying Signing Keys..."
+	export GNUPGHOME=/tmp/openvas-gnupg
+	mkdir -p $GNUPGHOME
+
+	gpg --import /tmp/GBCommunitySigningKey.asc
+	gpg --import-ownertrust < /tmp/ownertrust.txt
+
+	export OPENVAS_GNUPG_HOME=/etc/openvas/gnupg
+	mkdir -p $OPENVAS_GNUPG_HOME
+	cp -r /tmp/openvas-gnupg/* $OPENVAS_GNUPG_HOME/
+	chown -R openvas-sync:openvas-sync $OPENVAS_GNUPG_HOME
+	
+	echo "Creating Directories and Assigning Permissions..."
 	chown openvas-sync:openvas-sync -R /var/lib/openvas
 	mkdir -p /var/lib/notus
 	mkdir -p /var/lib/notus/products/
@@ -62,12 +86,11 @@ if [ ! -f "/firstrun" ]; then
 	chown -R openvas-sync:openvas-sync /usr/bin/nmap
 	chown -R openvas-sync:openvas-sync /var/lib/notus/products
 	chown -R openvas-sync:openvas-sync /run/notus-scanner
+	chown -R openvas-sync:openvas-sync /usr/bin/nmap
+	chmod -R g+srw /var/lib/openvas
 	
-	echo "Creating NVT folder..."
-	mkdir -p /var/lib/openvas/plugins/
-	chown openvas-sync:openvas-sync -R /var/lib/openvas/plugins
-	
-	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-nvt-sync
+	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-feed-sync
+	chmod 740 /usr/local/bin/greenbone-feed-sync
 	
 	touch /firstrun
 fi
@@ -99,7 +122,8 @@ echo "Starting Mosquitto..."
 echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
 
 echo "Updating NVTs..."
-su -c "rsync --compress-level=9 --links --times --omit-dir-times --recursive --partial --quiet rsync://feed.community.greenbone.net:/nvt-feed /var/lib/openvas/plugins" openvas-sync
+su -c "greenbone-feed-sync -v --compression-level=9 --type=nvt" openvas-sync
+su -c "greenbone-feed-sync -v --compression-level=9 --type=notus" openvas-sync
 echo "+++++++++++++++++++++++++++++++++++"
 echo "+ Enabling Automating NVT updates +"
 echo "+++++++++++++++++++++++++++++++++++"
