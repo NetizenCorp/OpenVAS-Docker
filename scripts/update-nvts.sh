@@ -4,6 +4,7 @@ set -Eeuo pipefail
 
 while true; do
 	echo "Running Automatic NVT update..."
-	su -c "rsync --compress-level=9 --links --times --omit-dir-times --recursive --partial --quiet rsync://feed.community.greenbone.net:/nvt-feed /var/lib/openvas/plugins" openvas-sync
+	su -c "greenbone-feed-sync -v --compression-level=9 --type=nvt" openvas-sync
+	su -c "greenbone-feed-sync -v --compression-level=9 --type=notus" openvas-sync
 	sleep 43200
 done
