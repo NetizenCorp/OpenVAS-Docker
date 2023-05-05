@@ -3,7 +3,7 @@
 Visit out Website: https://www.netizen.net
 
 # Remote OpenVAS Docker Image
-### Latest Version: 22.4.0
+### Latest Version: 22.4.1
 
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. This container supports AMD 64-bit and ARM 64-bit Linux based operating systems.
 
@@ -164,8 +164,8 @@ sudo docker container restart [generated container name]
 
 | Hosts              | CPU Cores     | Memory    | Disk Space |
 | :----------------- | :------------ | :-------- | :--------- |
-| 512 active IPs     | 4@2GHz cores  | 8 GB RAM  | 30 GB      |
-| 2,500 active IPs   | 6@2GHz cores  | 12 GB RAM | 60 GB      |
+| 512 active IPs     | 4@2GHz cores  | 8 GB RAM  | 50 GB      |
+| 2,500 active IPs   | 6@2GHz cores  | 12 GB RAM | 100 GB      |
 | 10,000 active IPs  | 8@3GHz cores  | 16 GB RAM | 250 GB     |
 | 25,000 active IPs  | 16@3GHz cores | 32 GB RAM | 1 TB       |
 | 100,000 active IPs | 32@3GHz cores | 64 GB RAM | 2 TB       |
