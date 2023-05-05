@@ -123,11 +123,8 @@ echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
 
 echo "Updating NVTs..."
 su -c "greenbone-feed-sync -v --compression-level=9 --type=nvt" openvas-sync
+sleep 5
 su -c "greenbone-feed-sync -v --compression-level=9 --type=notus" openvas-sync
-echo "+++++++++++++++++++++++++++++++++++"
-echo "+ Enabling Automating NVT updates +"
-echo "+++++++++++++++++++++++++++++++++++"
-/update-nvts.sh & disown
 sleep 5
 
 if [ -f /var/run/ospd.pid ]; then
