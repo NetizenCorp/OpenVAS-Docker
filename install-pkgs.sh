@@ -15,6 +15,7 @@ gcc-mingw-w64
 git
 geoip-database
 gnutls-bin
+gnupg
 heimdal-dev
 ike-scan
 python3-impacket
@@ -51,6 +52,7 @@ python3-cffi
 python3-cryptography
 python3-defusedxml
 python3-lxml
+python3-gnupg
 python3-packaging
 python3-paramiko
 python3-pip
@@ -60,6 +62,7 @@ python3-pyparsing
 python3-redis
 python3-setuptools
 python3-six
+python3-venv
 python3-paho-mqtt
 redis-server
 redis-tools
