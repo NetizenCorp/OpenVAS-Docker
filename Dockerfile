@@ -7,11 +7,12 @@ COPY install-pkgs.sh /install-pkgs.sh
 
 RUN bash /install-pkgs.sh
 
-ENV GVM_LIBS_VERSION="main" \
-    OPENVAS_SCANNER_VERSION="main" \
-    OPENVAS_SMB_VERSION="main" \
-    OSPD_OPENVAS_VERSION="main" \
-    NOTUS_VERSION="main" \
+ENV GVM_LIBS_VERSION="v22.5.2" \
+    OPENVAS_SCANNER_VERSION="v22.6.1" \
+    OPENVAS_SMB_VERSION="v22.5.0" \
+    OSPD_OPENVAS_VERSION="v22.5.0" \
+    NOTUS_VERSION="v22.5.0" \
+    SYNC_VERSION="main" \
     INSTALL_PREFIX="/usr/local" \
     SOURCE_DIR="/source" \
     BUILD_DIR="/build" \
@@ -23,7 +24,7 @@ RUN mkdir -p $SOURCE_DIR && \
 
 RUN echo "Starting Build..."
 
-	#
+    #
     # install libraries module for the Greenbone Vulnerability Management Solution
     #
     
@@ -38,7 +39,7 @@ RUN cd $SOURCE_DIR && \
     make -j$(nproc) && \
     make install
 	
-	#
+    #
     # install smb module for the OpenVAS Scanner
     #
     
@@ -60,15 +61,15 @@ RUN cd $SOURCE_DIR && \
     mkdir -p $BUILD_DIR/openvas-scanner && cd $BUILD_DIR/openvas-scanner && \
     cmake $SOURCE_DIR/openvas-scanner \
         -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
-        # -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_BUILD_TYPE=Release \
         -DSYSCONFDIR=/etc \
         -DLOCALSTATEDIR=/var \
         -DOPENVAS_FEED_LOCK_PATH=/var/lib/openvas/feed-update.lock \
         -DOPENVAS_RUN_DIR=/run/ospd && \
     make -j$(nproc) && \
     make install
-	
-	#
+    
+    #
     # Install Open Scanner Protocol for OpenVAS
     #
     
@@ -84,6 +85,15 @@ RUN cd $SOURCE_DIR && \
 RUN cd $SOURCE_DIR && \
     git clone --branch $NOTUS_VERSION https://github.com/greenbone/notus-scanner.git && \
     cd $SOURCE_DIR/notus-scanner && \
+    python3 -m pip install . --no-warn-script-location
+    
+    #
+    # Install Greenbone Feed Sync
+    #
+    
+RUN cd $SOURCE_DIR && \
+    git clone --branch $SYNC_VERSION https://github.com/greenbone/greenbone-feed-sync.git && \
+    cd $SOURCE_DIR/greenbone-feed-sync && \
     python3 -m pip install . --no-warn-script-location
     
 RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/openvas.conf && ldconfig && cd / && rm -rf /build

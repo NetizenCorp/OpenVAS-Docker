@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# This script update the NVTs in the background every 12 hours.
-set -Eeuo pipefail
 
-while true; do
-	echo "Running Automatic NVT update..."
-	su -c "rsync --compress-level=9 --links --times --omit-dir-times --recursive --partial --quiet rsync://feed.community.greenbone.net:/nvt-feed /var/lib/openvas/plugins" openvas-sync
-	sleep 43200
-done
+echo "Running Automatic NVT update..."
+su -c "greenbone-feed-sync -v --compression-level=9 --type=nvt" openvas-sync
+sleep 5
+su -c "greenbone-feed-sync -v --compression-level=9 --type=notus" openvas-sync
