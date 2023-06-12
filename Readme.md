@@ -3,7 +3,7 @@
 Visit out Website: https://www.netizen.net
 
 # Remote OpenVAS Docker Image
-### Latest Version: 22.4.1
+### Latest Version: 22.4.1rev1
 
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. This container supports AMD 64-bit and ARM 64-bit Linux based operating systems.
 
@@ -32,7 +32,7 @@ nano docker-compose.yml
 ```
 Edit the yml file with your preferences.
 ```bash
-version: "3.1"
+version: "3.8"
 services:
     gvm:
         image: netizensoc/openvas-scanner:[latest|dev|stable] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
@@ -102,7 +102,7 @@ nano docker-compose.yml
 ```
 Edit the yml file with your preferences.
 ```bash
-version: "3.1"
+version: "3.8"
 services:
     gvm:
         image: openvas:latest
