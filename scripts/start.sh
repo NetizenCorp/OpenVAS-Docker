@@ -57,6 +57,7 @@ if [ ! -f "/firstrun" ]; then
 	usermod -aG tty openvas-sync
 	usermod -aG sudo openvas-sync
 	usermod -aG redis openvas-sync
+	echo "%openvas-sync ALL = NOPASSWD: /usr/local/sbin/openvas" >> /etc/sudoers
 	
 	echo "Importing Greenbone Signing Keys..."
 	curl -f -L https://www.greenbone.net/GBCommunitySigningKey.asc -o /tmp/GBCommunitySigningKey.asc
