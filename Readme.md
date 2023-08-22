@@ -15,7 +15,7 @@ This docker container is designed for use with our GVM docker image located here
 If one of the first two requirements above is missing, you will need to follow the installation instructions in the [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker) to enable remote scanner management. To get your IP address on the Master Scanner, type "ip addr" in the command line or terminal.
 
 ## Installation for AMD 64-Bit Based Operating Systems
-First, install docker and docker-compose on your Linux system. After installation, apply permissions to a user(s) that will use docker. ${USER} is the username of the user(s)
+First, install the required packages, docker, and docker-compose on your Linux system. After installation, apply permissions to a user(s) that will use docker. ${USER} is the username of the user(s).
 ```bash
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose
@@ -83,7 +83,7 @@ sudo docker container restart [generated container name]
 ```
 
 ## Installation for ARM 64-Bit Based Operating Systems
-First, install docker and docker-compose on your Linux system. After installation, apply permissions to a user(s) that will use docker. ${USER} is the username of the user(s).
+First, install the required packages, docker, and docker-compose on your Linux system. After installation, apply permissions to a user(s) that will use docker. ${USER} is the username of the user(s).
 ```bash
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose
