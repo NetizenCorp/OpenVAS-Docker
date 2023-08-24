@@ -35,7 +35,7 @@ Edit the yml file with your preferences.
 version: "3.8"
 services:
     gvm:
-        image: netizensoc/openvas-scanner:[latest|dev|stable] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
+        image: netizensoc/openvas-scanner:[latest|dev] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
         volumes:
           - scanner:/data               # DO NOT MODIFY
         environment:
@@ -158,7 +158,6 @@ sudo docker container restart [generated container name]
 | --------- | ------------------------ |
 | latest    | Latest stable version    |
 | dev       | Latest development build |
-| stable    | Old Stable Version       |
 
 ## Estimated Hardware Requirements
 
