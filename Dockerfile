@@ -7,10 +7,10 @@ COPY install-pkgs.sh /install-pkgs.sh
 
 RUN bash /install-pkgs.sh
 
-ENV GVM_LIBS_VERSION="v22.6.1" \
-    OPENVAS_SCANNER_VERSION="v22.7.2" \
-    OPENVAS_SMB_VERSION="v22.5.2" \
-    OSPD_OPENVAS_VERSION="v22.5.1" \
+ENV GVM_LIBS_VERSION="v22.7.0" \
+    OPENVAS_SCANNER_VERSION="v22.7.3" \
+    OPENVAS_SMB_VERSION="v22.5.3" \
+    OSPD_OPENVAS_VERSION="v22.5.4" \
     NOTUS_VERSION="v22.5.0" \
     SYNC_VERSION="main" \
     INSTALL_PREFIX="/usr/local" \
@@ -62,6 +62,7 @@ RUN cd $SOURCE_DIR && \
     cmake $SOURCE_DIR/openvas-scanner \
         -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
         -DCMAKE_BUILD_TYPE=Release \
+	-DINSTALL_OLD_SYNC_SCRIPT=OFF \
         -DSYSCONFDIR=/etc \
         -DLOCALSTATEDIR=/var \
         -DOPENVAS_FEED_LOCK_PATH=/var/lib/openvas/feed-update.lock \

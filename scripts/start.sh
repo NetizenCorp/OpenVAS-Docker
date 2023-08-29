@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-crontab cronsettings.txt
-cron start
+# crontab cronsettings.txt
+# cron start
 
 MASTER_PORT=${MASTER_PORT:-22}
 
@@ -52,12 +52,12 @@ fi
 if [ ! -f "/firstrun" ]; then
 	echo "Running first start configuration..."
 	
-	echo "Creating Openvas NVT sync user..."
-	useradd -r -M -U -G sudo -s /bin/bash openvas-sync || echo "User already exists"
-	usermod -aG tty openvas-sync
-	usermod -aG sudo openvas-sync
-	usermod -aG redis openvas-sync
-	echo "%openvas-sync ALL = NOPASSWD: /usr/local/sbin/openvas" >> /etc/sudoers
+	echo "Creating GVM user..."
+	useradd -r -M -U -G sudo -s /bin/bash gvm || echo "User already exists"
+	usermod -aG tty gvm
+	usermod -aG sudo gvm
+	usermod -aG redis gvm
+	echo "%gvm ALL = NOPASSWD: /usr/local/sbin/openvas" >> /etc/sudoers
 	
 	echo "Importing Greenbone Signing Keys..."
 	curl -f -L https://www.greenbone.net/GBCommunitySigningKey.asc -o /tmp/GBCommunitySigningKey.asc
@@ -76,21 +76,21 @@ if [ ! -f "/firstrun" ]; then
 	export OPENVAS_GNUPG_HOME=/etc/openvas/gnupg
 	mkdir -p $OPENVAS_GNUPG_HOME
 	cp -r /tmp/openvas-gnupg/* $OPENVAS_GNUPG_HOME/
-	chown -R openvas-sync:openvas-sync $OPENVAS_GNUPG_HOME
+	chown -R gvm:gvm $OPENVAS_GNUPG_HOME
 	
 	echo "Creating Directories and Assigning Permissions..."
-	chown openvas-sync:openvas-sync -R /var/lib/openvas
+	chown gvm:gvm -R /var/lib/openvas
 	mkdir -p /var/lib/notus
 	mkdir -p /var/lib/notus/products/
 	mkdir -p /run/notus-scanner/
-	chown -R openvas-sync:openvas-sync /var/lib/notus
-	chown -R openvas-sync:openvas-sync /usr/bin/nmap
-	chown -R openvas-sync:openvas-sync /var/lib/notus/products
-	chown -R openvas-sync:openvas-sync /run/notus-scanner
-	chown -R openvas-sync:openvas-sync /usr/bin/nmap
+	chown -R gvm:gvm /var/lib/notus
+	chown -R gvm:gvm /usr/bin/nmap
+	chown -R gvm:gvm /var/lib/notus/products
+	chown -R gvm:gvm /run/notus-scanner
+	chown -R gvm:gvm /usr/bin/nmap
 	chmod -R g+srw /var/lib/openvas
 	
-	chown openvas-sync:openvas-sync /usr/local/bin/greenbone-feed-sync
+	chown gvm:gvm /usr/local/bin/greenbone-feed-sync
 	chmod 740 /usr/local/bin/greenbone-feed-sync
 	
 	touch /firstrun
@@ -120,12 +120,16 @@ echo "Redis ready."
 
 echo "Starting Mosquitto..."
 /usr/sbin/mosquitto &
-echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
+
+if	[ ! -f /mqttfirstrun ]; then
+	echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
+	touch /mqttfirstrun
+fi
 
 echo "Updating NVTs..."
-su -c "greenbone-feed-sync -v --compression-level=9 --type=nvt" openvas-sync
+su -c "greenbone-feed-sync -v --compression-level=9 --type=nvt" gvm
 sleep 5
-su -c "greenbone-feed-sync -v --compression-level=9 --type=notus" openvas-sync
+su -c "greenbone-feed-sync -v --compression-level=9 --type=notus" gvm
 sleep 5
 
 if [ -f /var/run/ospd.pid ]; then
