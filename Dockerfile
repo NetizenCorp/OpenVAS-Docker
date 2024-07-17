@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
@@ -7,11 +7,11 @@ COPY install-pkgs.sh /install-pkgs.sh
 
 RUN bash /install-pkgs.sh
 
-ENV GVM_LIBS_VERSION="v22.7.0" \
-    OPENVAS_SCANNER_VERSION="v22.7.3" \
-    OPENVAS_SMB_VERSION="v22.5.3" \
-    OSPD_OPENVAS_VERSION="v22.5.4" \
-    NOTUS_VERSION="v22.5.0" \
+ENV GVM_LIBS_VERSION="v22.10.0" \
+    OPENVAS_SCANNER_VERSION="v23.6.0" \
+    OPENVAS_SMB_VERSION="v22.5.6" \
+    OSPD_OPENVAS_VERSION="v22.7.1" \
+    NOTUS_VERSION="v22.6.3" \
     SYNC_VERSION="main" \
     INSTALL_PREFIX="/usr/local" \
     SOURCE_DIR="/source" \
