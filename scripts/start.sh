@@ -93,6 +93,10 @@ if [ ! -f "/firstrun" ]; then
 	chown gvm:gvm /usr/local/bin/greenbone-feed-sync
 	chmod 740 /usr/local/bin/greenbone-feed-sync
 	
+	# Downloading Python3-Impacket and Copying
+	git clone https://github.com/SecureAuthCorp/impacket.git /python3-impacket/
+	cp -R /python3-impacket/* /usr/share/doc/python3-impacket/
+	
 	touch /firstrun
 fi
 
