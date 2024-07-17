@@ -8,14 +8,12 @@ Visit our Website: https://www.netizen.net
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. Netizen continues to make improvements to the software for the stability and functionality of the suite. This container supports AMD 64-bit and ARM 64-bit Linux-based operating systems and Docker Desktop for Windows using WSL 2
 
 ## Table of Contents
-- [Requirements]()
-- [Linux Installation Instructions](https://github.com/NetizenCorp/GVM-Docker/tree/dev?tab=readme-ov-file#docker-system-installation-linux-amdarm-64-bit-only)
-- [Windows Installation Instruction](https://github.com/NetizenCorp/GVM-Docker/tree/dev?tab=readme-ov-file#docker-system-installation-windows-wsl2-amd-64-bit-only)
-- [PostgreSQL Upgrade Instructions](https://github.com/NetizenCorp/GVM-Docker/tree/dev#postgresql-upgrade)
-- [Architecture](https://github.com/NetizenCorp/GVM-Docker/tree/dev#architecture)
-- [Docker Tags](https://github.com/NetizenCorp/GVM-Docker/tree/dev#docker-tags)
-- [Estimated Hardware Requirements](https://github.com/NetizenCorp/GVM-Docker/tree/dev#estimated-hardware-requirements)
-- [About](https://github.com/NetizenCorp/GVM-Docker/tree/dev#about)
+- [Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#requirements)
+- [Linux Installation Instructions](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-system-installation-linux-amdarm-64-bit-only)
+- [Windows Installation Instruction](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-system-installation-windows-wsl2-amd-64-bit-only)
+- [Docker Tags](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-tags)
+- [Estimated Hardware Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#estimated-hardware-requirements)
+- [About](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#about)
 
 ## Requirements
 * The GVM Docker Container (Master System) has the SSHD option set to true.
