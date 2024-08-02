@@ -8,7 +8,7 @@ COPY install-pkgs.sh /install-pkgs.sh
 RUN bash /install-pkgs.sh
 
 ENV GVM_LIBS_VERSION="v22.10.0" \
-    OPENVAS_SCANNER_VERSION="v23.6.0" \
+    OPENVAS_SCANNER_VERSION="v23.8.2" \
     OPENVAS_SMB_VERSION="v22.5.6" \
     OSPD_OPENVAS_VERSION="v22.7.1" \
     NOTUS_VERSION="v22.6.3" \

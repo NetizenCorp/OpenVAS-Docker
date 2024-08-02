@@ -42,6 +42,7 @@ libbsd-dev \
 libunistring-dev \
 libxml2-dev \
 libpaho-mqtt-dev \
+libcurl4-gnutls-dev \
 mosquitto \
 nano \
 net-tools \
@@ -77,6 +78,6 @@ wget"
 
 echo $INSTALL_PKGS
 
-apt-get install -y --no-install-recommends
+apt-get install -y --no-install-recommends $INSTALL_PKGS
 
 rm -rf /var/lib/apt/lists/*

@@ -3,7 +3,7 @@
 Visit our Website: https://www.netizen.net
 
 # Remote OpenVAS Docker Image
-### Latest Version: 23.0.0
+### Latest Version: 23.2.1
 
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. Netizen continues to make improvements to the software for the stability and functionality of the suite. This container supports AMD 64-bit and ARM 64-bit Linux-based operating systems and Docker Desktop for Windows using WSL 2
 
@@ -28,7 +28,7 @@ If one of the first two requirements above is missing, you will need to follow t
 1. Install the required packages, docker, and docker-compose on your Linux system.
 ```bash
 sudo apt update
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose-v2
 ```
 2. Create a directory and download the docker-compose.yml file from GitHub. ${USER} is the username of the user(s).
 ```bash
@@ -61,7 +61,7 @@ volumes:
 ```
 5. Next, it's time to stand up the docker image using docker-compose.
 ```bash
-sudo docker-compose up -d # The -d option is for a detached docker image
+sudo docker compose up -d # The -d option is for a detached docker image
 ```
 6. Watch the scanner logs for the \"Scanner id\" and Public key
 Note: this assumes you\'ve named your container \"scanner\"
