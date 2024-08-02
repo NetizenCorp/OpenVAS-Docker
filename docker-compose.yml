@@ -1,4 +1,3 @@
-version: "3.8"
 services:
     gvm:
         image: netizensoc/openvas-scanner:[latest|dev] # Latest is the stable image. Dev is the development un-stable image.
@@ -8,5 +7,10 @@ services:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM container. Remove brackets
           - MASTER_PORT=2222            # SSH server port from the GVM container
         restart: unless-stopped # Remove if your using for penetration testing or one-time scans. Only use if using for production/continuous scanning
+        logging:
+          driver: "json-file"
+          options:
+            max-size: "1k"
+            max-file: "3"
 volumes:
     scanner:
