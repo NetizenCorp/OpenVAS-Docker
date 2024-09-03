@@ -46,7 +46,7 @@ services:
     gvm:
         image: netizensoc/openvas-scanner:[latest|dev] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
         volumes:
-          - scanner:/data               # DO NOT MODIFY
+          - scanner:/data               # DO NOT MODIFY unless establishing the external docker drive
         environment:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
@@ -58,6 +58,8 @@ services:
             max-file: "3"
 volumes:
     scanner:
+	name: scanner
+	external: true
 ```
 5. Next, it's time to stand up the docker image using docker-compose.
 ```bash
@@ -167,7 +169,7 @@ services:
     gvm:
         image: netizensoc/openvas-scanner:[latest|dev] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
         volumes:
-          - scanner:/data               # DO NOT MODIFY
+          - scanner:/data               # DO NOT MODIFY unless establishing the external docker drive
         environment:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
@@ -179,6 +181,8 @@ services:
             max-file: "3"
 volumes:
     scanner:
+	name: scanner
+	external: true
 ```
 12. It's time to stand up the docker image using docker-compose. Open your command prompt, navigate to the directory with the docker-compose.yml file, and type the following to create/execute the image.
 ```bash
@@ -218,6 +222,50 @@ You will receive a confirmation that the scanner has been added
 ```bash
 docker container restart [OpenVAS container name]
 ```
+
+## Upgrade Instructions (REMINDER: Always backup or take a snapshot of your data before executing the upgrade.)
+1. Run the following commands to backup the scanner keys and known host files into the data drive. 
+```bash
+sudo docker exec -it [container name] bash
+mkdir /data/ssh/
+cp -R /var/lib/gvm/.ssh/* /data/ssh/
+cp /var/lib/gvm/.scannerid /data/scannerid
+```
+2. Verify that all the data exists and matches between locations. Once verified, exit the container.
+3. Stop the container without deleting it
+```bash
+sudo docker-compose stop 
+```
+OR (if using docker compose V2)
+```bash
+sudo docker compose stop
+```
+4. Once stopped, pull the latest image of GVM
+```bash
+sudo docker pull netizensoc/openvas-scanner:latest
+```
+5. For those updating from versions prior to 23.2.1, you will need to modify the YAML file to make the drive external. This will preserve the drive and prevent accidental deletion. You will need to get the name of the volume and modify the name of the volume in the YAML file. If you are upgrading from version 23.2.1 or later, you can skip to step 7.
+```bash
+sudo docker volume ls
+```
+Copy the volume name that is outputted and put it into the YAML file in each location the volume is referenced 
+```bash
+DRIVER    VOLUME NAME
+local     gvm-data
+```
+6. Open the YAML file to update the configuration and volume name that was copied. Verify everything is correct and pointing to the correct volume before executing.
+```bash
+### Update this section at the bottom of the file. Don't forget to check the volume name near the top of the file
+volumes:
+    scanner:
+	name: scanner
+	external: true
+```
+7. Next, stand up the docker container to update the image.
+```bash
+sudo docker compose up -d
+```
+8. Once the image is up and running (all NVT's loaded), verify you have connectivity in the Master Scanner by clicking the Sheild under the Scanners page. Note if unable to connect you may need to reboot the master scanner and remote scanner images.
 
 ## Docker Tags
 
