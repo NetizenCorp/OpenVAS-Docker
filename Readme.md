@@ -51,7 +51,7 @@ services:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
         restart: unless-stopped # Remove if you're using it for penetration testing or one-time scans. Only use if using for production/continuous scanning
-		logging:
+	logging:
           driver: "json-file"
           options:
             max-size: "1k"
@@ -174,7 +174,7 @@ services:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
         restart: unless-stopped # Remove if you're using it for penetration testing or one-time scans. Only use if using for production/continuous scanning
-		logging:
+	logging:
           driver: "json-file"
           options:
             max-size: "1k"
