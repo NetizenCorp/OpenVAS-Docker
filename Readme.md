@@ -8,12 +8,13 @@ Visit our Website: https://www.netizen.net
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. Netizen continues to make improvements to the software for the stability and functionality of the suite. This container supports AMD 64-bit and ARM 64-bit Linux-based operating systems and Docker Desktop for Windows using WSL 2
 
 ## Table of Contents
-- [Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/main/Readme.md#requirements)
-- [Linux Installation Instructions](https://github.com/NetizenCorp/OpenVAS-Docker/blob/main/Readme.md#docker-system-installation-linux-amdarm-64-bit-only)
-- [Windows Installation Instruction](https://github.com/NetizenCorp/OpenVAS-Docker/blob/main/Readme.md#docker-system-installation-windows-wsl2-amd-64-bit-only)
-- [Docker Tags](https://github.com/NetizenCorp/OpenVAS-Docker/blob/main/Readme.md#docker-tags)
-- [Estimated Hardware Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/main/Readme.md#estimated-hardware-requirements)
-- [About](https://github.com/NetizenCorp/OpenVAS-Docker/blob/main/Readme.md#about)
+- [Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#requirements)
+- [Linux Installation Instructions](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-system-installation-linux-amdarm-64-bit-only)
+- [Windows Installation Instruction](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-system-installation-windows-wsl2-amd-64-bit-only)
+- [Upgrade Instructions](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#upgrade-instructions-reminder-always-backup-or-take-a-snapshot-of-your-data-before-executing-the-upgrade)
+- [Docker Tags](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-tags)
+- [Estimated Hardware Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#estimated-hardware-requirements)
+- [About](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#about)
 
 ## Requirements
 * The GVM Docker Container (Master System) has the SSHD option set to true.
@@ -58,8 +59,6 @@ services:
             max-file: "3"
 volumes:
     scanner:
-	name: scanner
-	external: true
 ```
 5. Next, it's time to stand up the docker image using docker-compose.
 ```bash
@@ -181,8 +180,6 @@ services:
             max-file: "3"
 volumes:
     scanner:
-	name: scanner
-	external: true
 ```
 12. It's time to stand up the docker image using docker-compose. Open your command prompt, navigate to the directory with the docker-compose.yml file, and type the following to create/execute the image.
 ```bash
@@ -251,15 +248,15 @@ sudo docker volume ls
 Copy the volume name that is outputted and put it into the YAML file in each location the volume is referenced 
 ```bash
 DRIVER    VOLUME NAME
-local     gvm-data
+local     scanner
 ```
 6. Open the YAML file to update the configuration and volume name that was copied. Verify everything is correct and pointing to the correct volume before executing.
 ```bash
-### Update this section at the bottom of the file. Don't forget to check the volume name near the top of the file
+### Update this section at the bottom of the file. Ensure that you updated the volume name near the top of the yaml file.
 volumes:
     scanner:
-	name: scanner
-	external: true
+	name: scanner # ADD THIS LINE
+	external: true # ADD THIS LINE
 ```
 7. Next, stand up the docker container to update the image.
 ```bash
