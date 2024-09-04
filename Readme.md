@@ -11,6 +11,7 @@ This docker container is designed for use with our GVM docker image located here
 - [Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#requirements)
 - [Linux Installation Instructions](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-system-installation-linux-amdarm-64-bit-only)
 - [Windows Installation Instruction](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-system-installation-windows-wsl2-amd-64-bit-only)
+- [Upgrade Instructions](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#upgrade-instructions-reminder-always-backup-or-take-a-snapshot-of-your-data-before-executing-the-upgrade)
 - [Docker Tags](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#docker-tags)
 - [Estimated Hardware Requirements](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#estimated-hardware-requirements)
 - [About](https://github.com/NetizenCorp/OpenVAS-Docker/blob/dev/Readme.md#about)
