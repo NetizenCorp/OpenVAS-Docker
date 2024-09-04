@@ -58,8 +58,6 @@ services:
             max-file: "3"
 volumes:
     scanner:
-	name: scanner
-	external: true
 ```
 5. Next, it's time to stand up the docker image using docker-compose.
 ```bash
@@ -181,8 +179,6 @@ services:
             max-file: "3"
 volumes:
     scanner:
-	name: scanner
-	external: true
 ```
 12. It's time to stand up the docker image using docker-compose. Open your command prompt, navigate to the directory with the docker-compose.yml file, and type the following to create/execute the image.
 ```bash
@@ -251,15 +247,15 @@ sudo docker volume ls
 Copy the volume name that is outputted and put it into the YAML file in each location the volume is referenced 
 ```bash
 DRIVER    VOLUME NAME
-local     gvm-data
+local     scanner
 ```
 6. Open the YAML file to update the configuration and volume name that was copied. Verify everything is correct and pointing to the correct volume before executing.
 ```bash
-### Update this section at the bottom of the file. Don't forget to check the volume name near the top of the file
+### Update this section at the bottom of the file. Ensure that you updated the volume name near the top of the yaml file.
 volumes:
     scanner:
-	name: scanner
-	external: true
+	name: scanner # ADD THIS LINE
+	external: true # ADD THIS LINE
 ```
 7. Next, stand up the docker container to update the image.
 ```bash
