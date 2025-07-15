@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV LANG=C.UTF-8
+# ENV LANG=C.UTF-8
 
 COPY install-pkgs.sh /install-pkgs.sh
 
