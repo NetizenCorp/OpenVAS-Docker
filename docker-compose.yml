@@ -7,6 +7,13 @@ services:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM container. Remove brackets
           - MASTER_PORT=2222            # SSH server port from the GVM container
         restart: unless-stopped # Remove if your using for penetration testing or one-time scans. Only use if using for production/continuous scanning
+        hostname: ospd-openvas.local
+        cap_add:
+          - NET_ADMIN # for capturing packages in promiscuous mode
+          - NET_RAW # for raw sockets e.g. used for the boreas alive detection
+        security_opt:
+          - seccomp=unconfined
+          - apparmor=unconfined
         logging:
           driver: "json-file"
           options:
