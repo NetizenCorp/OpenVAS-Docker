@@ -71,6 +71,7 @@ python3-paho-mqtt \
 redis-server \
 redis-tools \
 rsync \
+rustup \
 sudo \
 smbclient \
 uuid-dev \
@@ -81,5 +82,7 @@ wget"
 echo $INSTALL_PKGS
 
 apt-get install -y --no-install-recommends $INSTALL_PKGS
+
+rustup update stable
 
 rm -rf /var/lib/apt/lists/*
