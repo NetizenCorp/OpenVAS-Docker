@@ -162,7 +162,8 @@ if [ ! -d /run/ospd ]; then
 fi
 
 echo "Starting Open Scanner Protocol daemon for OpenVAS..."
-ospd-openvas --log-file /var/log/gvm/ospd-openvas.log --unix-socket /run/ospd/ospd-openvas.sock --socket-mode 0o666 --log-level INFO
+# ospd-openvas --log-file /var/log/gvm/ospd-openvas.log --unix-socket /run/ospd/ospd-openvas.sock --socket-mode 0o666 --log-level INFO
+ospd-openvas --unix-socket /run/ospd/ospd-openvas.sock --pid-file /run/ospd/ospd-openvas.pid --log-file /var/log/gvm/ospd-openvas.log --lock-file-dir /var/lib/openvas --socket-mode 0o776 --notus-feed-dir /var/lib/notus/advisories --log-level INFO
 
 # Starting OpenVAS Daemon
 
