@@ -17,9 +17,10 @@ git \
 geoip-database \
 gnutls-bin \
 gnupg \
-heimdal-dev \
+heimdal-multidev \
 ike-scan \
 python3-impacket \
+krb5-multidev \
 libgcrypt20-dev \
 libjson-glib-dev \
 libglib2.0-dev \
@@ -38,6 +39,7 @@ libpcap-dev \
 libpopt-dev \
 libsnmp-dev \
 libssh-gcrypt-dev \
+libssl-dev \
 libbsd-dev \
 libunistring-dev \
 libxml2-dev \
