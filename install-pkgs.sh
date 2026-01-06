@@ -18,9 +18,9 @@ geoip-database \
 gnutls-bin \
 gnupg \
 heimdal-multidev \
+krb5-multidev \
 ike-scan \
 python3-impacket \
-krb5-multidev \
 libgcrypt20-dev \
 libjson-glib-dev \
 libglib2.0-dev \
@@ -33,6 +33,7 @@ libksba-dev \
 libldap2-dev \
 libcap2-bin \
 libmagic-dev \
+libcjson-dev \
 libmicrohttpd-dev \
 libnet1-dev \
 libnet-snmp-perl \
@@ -46,7 +47,6 @@ libunistring-dev \
 libxml2-dev \
 libpaho-mqtt-dev \
 libcurl4-gnutls-dev \
-mosquitto \
 nano \
 net-tools \
 nmap \
