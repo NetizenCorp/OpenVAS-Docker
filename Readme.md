@@ -3,7 +3,7 @@
 Visit our Website: https://www.netizen.net
 
 # Remote OpenVAS Docker Image
-### Latest Version: 23.2.1
+### Latest Version: 23.35.3
 
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. Netizen continues to make improvements to the software for the stability and functionality of the suite. This container supports AMD 64-bit and ARM 64-bit Linux-based operating systems and Docker Desktop for Windows using WSL 2
 
@@ -52,7 +52,14 @@ services:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
         restart: unless-stopped # Remove if you're using it for penetration testing or one-time scans. Only use if using for production/continuous scanning
-	logging:
+	 	hostname: ospd-openvas.local
+        cap_add:
+          - NET_ADMIN # for capturing packages in promiscuous mode
+          - NET_RAW # for raw sockets e.g. used for the boreas alive detection
+        security_opt:
+          - seccomp=unconfined
+          - apparmor=unconfined
+        logging:
           driver: "json-file"
           options:
             max-size: "1k"
@@ -173,7 +180,14 @@ services:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
         restart: unless-stopped # Remove if you're using it for penetration testing or one-time scans. Only use if using for production/continuous scanning
-	logging:
+		hostname: ospd-openvas.local
+        cap_add:
+          - NET_ADMIN # for capturing packages in promiscuous mode
+          - NET_RAW # for raw sockets e.g. used for the boreas alive detection
+        security_opt:
+          - seccomp=unconfined
+          - apparmor=unconfined
+        logging:
           driver: "json-file"
           options:
             max-size: "1k"
