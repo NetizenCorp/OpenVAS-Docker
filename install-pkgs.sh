@@ -32,6 +32,7 @@ libical-dev \
 libksba-dev \
 libldap2-dev \
 libcap2-bin \
+libmagic-dev \
 libmicrohttpd-dev \
 libnet1-dev \
 libnet-snmp-perl \
