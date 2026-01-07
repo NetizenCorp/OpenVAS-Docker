@@ -3,7 +3,7 @@
 Visit our Website: https://www.netizen.net
 
 # Remote OpenVAS Docker Image
-### Latest Version: 23.2.1
+### Latest Version: 23.35.3
 
 This docker container is designed for use with our GVM docker image located here: [GVM-Docker](https://github.com/NetizenCorp/GVM-Docker). The remote scanner doesn't contain any web front. It has been designed as a remote scanner that is controlled by a Master GVM Docker Container. The image uses the latest version of OpenVAS and GVM. Netizen continues to make improvements to the software for the stability and functionality of the suite. This container supports AMD 64-bit and ARM 64-bit Linux-based operating systems and Docker Desktop for Windows using WSL 2
 
@@ -45,14 +45,21 @@ nano docker-compose.yml
 ```bash
 services:
     gvm:
-        image: netizensoc/openvas-scanner:[latest|dev] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
+        image: netizensoc/openvas-scanner:[latest|dev|dev-arm] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image for AMD64 Systems. Dev-Arm is the development image for ARM64 Systems.
         volumes:
           - scanner:/data               # DO NOT MODIFY unless establishing the external docker drive
         environment:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
         restart: unless-stopped # Remove if you're using it for penetration testing or one-time scans. Only use if using for production/continuous scanning
-	logging:
+	 	hostname: ospd-openvas.local
+        cap_add:
+          - NET_ADMIN # for capturing packages in promiscuous mode
+          - NET_RAW # for raw sockets e.g. used for the boreas alive detection
+        security_opt:
+          - seccomp=unconfined
+          - apparmor=unconfined
+        logging:
           driver: "json-file"
           options:
             max-size: "1k"
@@ -166,14 +173,21 @@ Edit and save the yml file with your preferences. NOTE: Netizen is not responsib
 ```bash
 services:
     gvm:
-        image: netizensoc/openvas-scanner:[latest|dev] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image.
+        image: netizensoc/openvas-scanner:[latest|dev|dev-arm] # PICK A VERSION AND REMOVE BRACKETS BEFORE COMPOSING. Latest is the stable image. Dev is the development image for AMD64 Systems. Dev-Arm is the development image for ARM64 Systems.
         volumes:
           - scanner:/data               # DO NOT MODIFY unless establishing the external docker drive
         environment:
           - MASTER_ADDRESS=[Enter IP]   # IP or Hostname of the GVM Master container. REMOVE BRACKETS BEFORE COMPOSING.
           - MASTER_PORT=2222            # SSH server port from the GVM container. Make sure the port matches the GVM master port that was configured.
         restart: unless-stopped # Remove if you're using it for penetration testing or one-time scans. Only use if using for production/continuous scanning
-	logging:
+		hostname: ospd-openvas.local
+        cap_add:
+          - NET_ADMIN # for capturing packages in promiscuous mode
+          - NET_RAW # for raw sockets e.g. used for the boreas alive detection
+        security_opt:
+          - seccomp=unconfined
+          - apparmor=unconfined
+        logging:
           driver: "json-file"
           options:
             max-size: "1k"
@@ -237,11 +251,17 @@ OR (if using docker compose V2)
 ```bash
 sudo docker compose stop
 ```
-4. Once stopped, pull the latest image of GVM
+4. Once Stopped, make a backup of your docker-compose.yml file and then pull the latest docker compose YAML file and update with your credentials from the backup file with your preferred editor.
+```
+cp docker-compose.yml docker-compose.yml.bk
+wget https://raw.githubusercontent.com/NetizenCorp/OpenVAS-Docker/main/docker-compose.yml
+nano docker-compose.yml
+```
+5. Once stopped, pull the latest image of GVM
 ```bash
 sudo docker pull netizensoc/openvas-scanner:latest
 ```
-5. For those updating from versions prior to 23.2.1, you will need to modify the YAML file to make the drive external. This will preserve the drive and prevent accidental deletion. You will need to get the name of the volume and modify the name of the volume in the YAML file. If you are upgrading from version 23.2.1 or later, you can skip to step 7.
+6. For those updating from versions prior to 23.2.1, you will need to modify the YAML file to make the drive external. This will preserve the drive and prevent accidental deletion. You will need to get the name of the volume and modify the name of the volume in the YAML file. If you are upgrading from version 23.2.1 or later, you can skip to step 8.
 ```bash
 sudo docker volume ls
 ```
@@ -250,7 +270,7 @@ Copy the volume name that is outputted and put it into the YAML file in each loc
 DRIVER    VOLUME NAME
 local     scanner
 ```
-6. Open the YAML file to update the configuration and volume name that was copied. Verify everything is correct and pointing to the correct volume before executing.
+7. Open the YAML file to update the configuration and volume name that was copied. Verify everything is correct and pointing to the correct volume before executing.
 ```bash
 ### Update this section at the bottom of the file. Ensure that you updated the volume name near the top of the yaml file.
 volumes:
@@ -258,18 +278,19 @@ volumes:
 	name: scanner # ADD THIS LINE
 	external: true # ADD THIS LINE
 ```
-7. Next, stand up the docker container to update the image.
+8. Next, stand up the docker container to update the image.
 ```bash
 sudo docker compose up -d
 ```
-8. Once the image is up and running (all NVT's loaded), verify you have connectivity in the Master Scanner by clicking the Sheild under the Scanners page. Note if unable to connect you may need to reboot the master scanner and remote scanner images.
+9. Once the image is up and running (all NVT's loaded), verify you have connectivity in the Master Scanner by clicking the Sheild under the Scanners page. Note if unable to connect you may need to reboot the master scanner and remote scanner images.
 
 ## Docker Tags
 
 | Tag       | Description              |
 | --------- | ------------------------ |
 | latest    | Latest stable version    |
-| dev       | Latest development build |
+| dev       | Latest development build for AMD64 Based Systems |
+| dev-arm	| Latest development build for ARM64 Based Systems |
 
 ## Estimated Hardware Requirements
 

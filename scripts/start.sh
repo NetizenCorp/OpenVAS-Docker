@@ -102,11 +102,15 @@ fi
 
 if [ ! -d "/run/redis" ]; then
 	mkdir /run/redis
+ 	cp /redis.conf /etc/redis/
+  	chown redis:redis /etc/redis/redis.conf
+  	echo "db_address = /run/redis/redis.sock" | tee -a /etc/openvas/openvas.conf
 fi
 if  [ -S /run/redis/redis.sock ]; then
         rm /run/redis/redis.sock
 fi
-redis-server --unixsocket /run/redis/redis.sock --unixsocketperm 700 --timeout 0 --databases 65536 --maxclients 4096 --daemonize yes --port 6379 --bind 0.0.0.0
+# redis-server --unixsocket /run/redis/redis.sock --unixsocketperm 700 --timeout 0 --databases 65536 --maxclients 4096 --daemonize yes --port 6379 --bind 0.0.0.0
+redis-server /etc/redis/redis.conf
 
 echo "Wait for redis socket to be created..."
 while  [ ! -S /run/redis/redis.sock ]; do
@@ -122,11 +126,8 @@ while  [ "${X}" != "PONG" ]; do
 done
 echo "Redis ready."
 
-echo "Starting Mosquitto..."
-/usr/sbin/mosquitto &
-
-if	[ ! -f /mqttfirstrun ]; then
-	echo "mqtt_server_uri = localhost:1883" | tee -a /etc/openvas/openvas.conf
+if [ ! -f /mqttfirstrun ]; then
+  echo "openvasd_server = http://localhost:3000" | tee -a /etc/openvas/openvas.conf
 	touch /mqttfirstrun
 fi
 
@@ -161,10 +162,13 @@ if [ ! -d /run/ospd ]; then
 fi
 
 echo "Starting Open Scanner Protocol daemon for OpenVAS..."
-ospd-openvas --log-file /var/log/gvm/ospd-openvas.log --unix-socket /run/ospd/ospd-openvas.sock --socket-mode 0o666 --log-level INFO
+# ospd-openvas --log-file /var/log/gvm/ospd-openvas.log --unix-socket /run/ospd/ospd-openvas.sock --socket-mode 0o666 --log-level INFO
+ospd-openvas --unix-socket /run/ospd/ospd-openvas.sock --pid-file /run/ospd/ospd-openvas.pid --log-file /var/log/gvm/ospd-openvas.log --lock-file-dir /var/lib/openvas --socket-mode 0o776 --notus-feed-dir /var/lib/notus/advisories --log-level INFO
 
-echo "Starting Notus Scanner..."
-/usr/local/bin/notus-scanner --products-directory /var/lib/notus/products --log-file /var/log/gvm/notus-scanner.log
+# Starting OpenVAS Daemon
+
+echo "Starting OpenVAS Daemon..."
+su -c "/usr/local/bin/openvasd --mode service_notus --products /var/lib/notus/products --advisories /var/lib/notus/advisories --listening 127.0.0.1:3000 &" gvm
 
 while  [ ! -S /run/ospd/ospd-openvas.sock ]; do
 	sleep 1

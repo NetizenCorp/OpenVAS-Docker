@@ -17,7 +17,8 @@ git \
 geoip-database \
 gnutls-bin \
 gnupg \
-heimdal-dev \
+heimdal-multidev \
+krb5-multidev \
 ike-scan \
 python3-impacket \
 libgcrypt20-dev \
@@ -31,6 +32,8 @@ libical-dev \
 libksba-dev \
 libldap2-dev \
 libcap2-bin \
+libmagic-dev \
+libcjson-dev \
 libmicrohttpd-dev \
 libnet1-dev \
 libnet-snmp-perl \
@@ -38,12 +41,12 @@ libpcap-dev \
 libpopt-dev \
 libsnmp-dev \
 libssh-gcrypt-dev \
+libssl-dev \
 libbsd-dev \
 libunistring-dev \
 libxml2-dev \
 libpaho-mqtt-dev \
 libcurl4-gnutls-dev \
-mosquitto \
 nano \
 net-tools \
 nmap \
@@ -69,6 +72,7 @@ python3-paho-mqtt \
 redis-server \
 redis-tools \
 rsync \
+rustup \
 sudo \
 smbclient \
 uuid-dev \
@@ -79,5 +83,7 @@ wget"
 echo $INSTALL_PKGS
 
 apt-get install -y --no-install-recommends $INSTALL_PKGS
+
+rustup update stable
 
 rm -rf /var/lib/apt/lists/*
